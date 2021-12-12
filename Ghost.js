@@ -293,6 +293,7 @@ Ghost.prototype = {
     },
     
     enterFrightenedMode: function() {
+        //if ghost is active on the map
         if (this.mode !== this.AT_HOME && this.mode !== this.EXIT_HOME && this.mode !== this.RETURNING_HOME) {
             this.ghost.play("frightened");
             this.mode = this.RANDOM;
@@ -301,7 +302,6 @@ Ghost.prototype = {
     },
     
     getGhostDestination: function() {
-
         var dest = this.game.pacman.getPosition();
         return dest;                
     },
@@ -322,7 +322,6 @@ Ghost.prototype = {
     
     move: function(dir) {
         this.currentDir = dir;
-        
         var speed = this.ghostSpeed;
         if (this.mode === this.RANDOM) {
             speed = this.ghostFrightenedSpeed;

@@ -185,16 +185,16 @@ PacmanGame.prototype = {
                 }
             }
             
-            if (this.score > 5 && !this.ispurpleOut) {
+            if (this.score > 20 && !this.ispurpleOut) {
                 this.ispurpleOut = true;
                 this.sendExitOrder(this.purple);
             }
-            if (this.score > 20 && !this.isgreenOut) {
+            if (this.score > 50 && !this.isgreenOut) {
                 this.isgreenOut = true;
                 this.sendExitOrder(this.green);
             }
             
-            if (this.score > 35 && !this.isyellowOut) {
+            if (this.score > 100 && !this.isyellowOut) {
                 this.isyellowOut = true;
                 this.sendExitOrder(this.yellow);
             }
@@ -226,7 +226,7 @@ PacmanGame.prototype = {
         
         this.checkKeys();
         this.checkMouse();
-//        this.checkPad();
+    //this.checkPad();
 
     },
     

@@ -26,13 +26,13 @@ var Pacman = function(game, key) {
     //Place pac-man in the center
     this.sprite = this.game.add.sprite((14 * 16) + 8, (17 * 16) + 8, key, 0);
     this.sprite.anchor.setTo(0.5);
-    this.sprite.animations.add('munch', [0, 1, 2, 1], 20, true);
+    this.sprite.animations.add('eating', [0, 1, 2, 1], 20, true);
     this.sprite.animations.add("death", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], 10, false);
     
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.setSize(16, 16, 0, 0);
     
-    this.sprite.play('munch');
+    this.sprite.play('eating');
     this.move(Phaser.LEFT);    
 };
 
