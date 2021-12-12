@@ -108,26 +108,27 @@ Pacman.prototype.update = function() {
         }
     }
 };
-
+/*
 Pacman.prototype.checkPad = function(pad1) {
-    if (pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > .1)
+    if (pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X ) > .1 && this.current !== Phaser.Left)
     {
         this.want2go = Phaser.LEFT;
     }
-    else if (pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -.1)
+    else if (pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -.1 && this.current !== Phaser.RIGHT)
     {
         this.want2go = Phaser.RIGHT;
     }
-    else if ((Phaser.Gamepad.XBOX360_STICK_LEFT_Y) < -0.1)
+    else if ((Phaser.Gamepad.XBOX360_STICK_LEFT_Y) < -0.1 && this.current !== Phaser.UP)
     {
         this.want2go = Phaser.UP;
     }
-    else if ((Phaser.Gamepad.XBOX360_STICK_LEFT_Y) > 0.1)
+    else if ((Phaser.Gamepad.XBOX360_STICK_LEFT_Y) > 0.1 && this.current !== Phaser.DOWN)
     {
         this.want2go = Phaser.DOWN;
     }
 
 }
+*/
 
 Pacman.prototype.checkKeys = function(cursors) {
     if (cursors.left.isDown ||

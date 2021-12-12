@@ -226,7 +226,7 @@ PacmanGame.prototype = {
         
         this.checkKeys();
         this.checkMouse();
-        this.checkPad();
+//        this.checkPad();
 
     },
     
