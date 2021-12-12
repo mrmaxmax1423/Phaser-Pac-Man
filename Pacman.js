@@ -22,9 +22,8 @@ var Pacman = function(game, key) {
     this.want2go = Phaser.NONE;
     
     this.keyPressTimer = 0;
-    this.KEY_COOLING_DOWN_TIME = 750;
-    
-    //  Position Pacman at grid location 14x17 (the +8 accounts for his anchor)
+    this.KEY_COOLING_DOWN_TIME = 750;   
+    //Place pac-man in the center
     this.sprite = this.game.add.sprite((14 * 16) + 8, (17 * 16) + 8, key, 0);
     this.sprite.anchor.setTo(0.5);
     this.sprite.animations.add('munch', [0, 1, 2, 1], 20, true);
@@ -59,7 +58,6 @@ Pacman.prototype.move = function(direction) {
         this.sprite.body.velocity.y = speed;
     }
 
-    //  Reset the scale and angle (Pacman is facing to the right in the sprite sheet)
     this.sprite.scale.x = 1;
     this.sprite.angle = 0;
 
@@ -75,7 +73,6 @@ Pacman.prototype.move = function(direction) {
     {
         this.sprite.angle = 90;
     }
-
     this.current = direction;
 };
 
@@ -94,7 +91,6 @@ Pacman.prototype.update = function() {
         if (this.marker.x >= this.game.map.width) {
             this.sprite.x = 1;
         }
-
         this.directions[1] = this.game.map.getTileLeft(this.game.layer.index, this.marker.x, this.marker.y);
         this.directions[2] = this.game.map.getTileRight(this.game.layer.index, this.marker.x, this.marker.y);
         this.directions[3] = this.game.map.getTileAbove(this.game.layer.index, this.marker.x, this.marker.y);
@@ -113,6 +109,25 @@ Pacman.prototype.update = function() {
     }
 };
 
+Pacman.prototype.checkPad = function(pad1) {
+    if (pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > .1)
+    {
+        this.want2go = Phaser.LEFT;
+    }
+    else if (pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -.1)
+    {
+        this.want2go = Phaser.RIGHT;
+    }
+    else if ((Phaser.Gamepad.XBOX360_STICK_LEFT_Y) < -0.1)
+    {
+        this.want2go = Phaser.UP;
+    }
+    else if ((Phaser.Gamepad.XBOX360_STICK_LEFT_Y) > 0.1)
+    {
+        this.want2go = Phaser.DOWN;
+    }
+
+}
 
 Pacman.prototype.checkKeys = function(cursors) {
     if (cursors.left.isDown ||
@@ -121,7 +136,6 @@ Pacman.prototype.checkKeys = function(cursors) {
         cursors.down.isDown) {
         this.keyPressTimer = this.game.time.time + this.KEY_COOLING_DOWN_TIME;
     }
-
     if (cursors.left.isDown && this.current !== Phaser.LEFT)
     {
         this.want2go = Phaser.LEFT;
@@ -138,10 +152,8 @@ Pacman.prototype.checkKeys = function(cursors) {
     {
         this.want2go = Phaser.DOWN;
     }
-
     if (this.game.time.time > this.keyPressTimer)
     {
-        //  This forces them to hold the key down to turn the corner
         this.turning = Phaser.NONE;
         this.want2go = Phaser.NONE;
     } else {
@@ -172,13 +184,11 @@ Pacman.prototype.eatPill = function(pacman, pill) {     //when pacman eats a pil
 Pacman.prototype.turn = function () {
     var cx = Math.floor(this.sprite.x);
     var cy = Math.floor(this.sprite.y);
-
     //  This needs a threshold, because at high speeds you can't turn because the coordinates skip past
     if (!this.game.math.fuzzyEqual(cx, this.turnPoint.x, this.threshold) || !this.game.math.fuzzyEqual(cy, this.turnPoint.y, this.threshold))
     {
         return false;
     }
-
     //  Grid align before turning
     this.sprite.x = this.turnPoint.x;
     this.sprite.y = this.turnPoint.y;
@@ -189,16 +199,12 @@ Pacman.prototype.turn = function () {
 
     return true;
 };
-
 Pacman.prototype.checkDirection = function (turnTo) {
     if (this.turning === turnTo || this.directions[turnTo] === null || this.directions[turnTo].index !== this.safetile)
     {
-        //  Invalid direction if they're already set to turn that way
-        //  Or there is no tile there, or the tile isn't index 1 (a floor tile)
         return;
     }
 
-    //  Check if they want to turn around and can
     if (this.current === this.opposites[turnTo])
     {
         this.move(turnTo);

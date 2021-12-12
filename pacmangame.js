@@ -1,6 +1,8 @@
 var game = new Phaser.Game(448, 496, Phaser.AUTO, "game");
 
 var PacmanGame = function (game) {    
+    var pad1;
+    
     this.map = null;
     this.layer = null;
     
@@ -77,6 +79,12 @@ PacmanGame.prototype = {
     },
 
     create: function () {
+        game.input.gamepad.start();
+
+    // To listen to buttons from a specific pad listen directly on that pad game.input.gamepad.padX, where X = pad 1-4
+        pad1 = game.input.gamepad.pad1;
+
+
         this.map = this.add.tilemap('map');
         this.map.addTilesetImage('pacman-tiles', 'tiles');
 
@@ -94,19 +102,13 @@ PacmanGame.prototype = {
         this.dots.setAll('y', 6, false, false, 1);
         
         this.map.setCollisionByExclusion([this.safetile], true, this.layer);
-
 		//Pacman
         this.pacman = new Pacman(this, "pacman");
-
         //Score
         this.scoreText = game.add.text(8, 272, "Score: " + this.score, { fontSize: "16px", fill: "#fff" });
         
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        
-        //this.game.time.events.add(1250, this.sendExitOrder, this);
-        //this.game.time.events.add(7000, this.sendAttackOrder, this);
-        
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
         
         // Ghosts
@@ -120,8 +122,11 @@ PacmanGame.prototype = {
     },
 
     checkKeys: function () {
-        this.pacman.checkKeys(this.cursors);
-        
+        this.pacman.checkKeys(this.cursors);        
+    },
+
+    checkPad: function () {
+        this.pacman.checkPad(pad1);        
     },
     
     checkMouse: function() {
@@ -221,6 +226,7 @@ PacmanGame.prototype = {
         
         this.checkKeys();
         this.checkMouse();
+
     },
     
     enterFrightenedMode: function() {
